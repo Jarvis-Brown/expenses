@@ -1,0 +1,57 @@
+* {
+    border: solid red;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-img-name {
+    display: flex;
+    gap: 25px;
+}
+
+.user-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.line {
+    width: 25px;
+    height: 2px;
+}
+
+.group-transaction-main {
+    display: flex;
+    justify-content: space-around;
+}
+
+.user-img-name-transaction {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.user-image-transaction {
+    width: 178px;
+    /* Aspect ratio for a regular hexagon is approximately 1 / cos(30deg) */
+    height: calc(178px * 1.1547);
+    background-color: #6c6; /* Green color example */
+    clip-path: polygon(
+        0% 25%,
+        /* Top-left corner of the shape */ 0% 75%,
+        /* Bottom-left corner of the shape */ 50% 100%,
+        /* Bottom middle corner */ 100% 75%,
+        /* Bottom-right corner of the shape */ 100% 25%,
+        /* Top-right corner of the shape */ 50% 0% /* Top middle corner */
+    );
+}
+
+.options-group {
+    display: flex;
+    justify-content: center;
+    gap: 62px;
+}
