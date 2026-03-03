@@ -50,8 +50,68 @@
     );
 }
 
+.transation-total-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.transaction-box {
+    border-radius: 15px;
+    background-color: lightgray;
+}
+
 .options-group {
     display: flex;
     justify-content: center;
     gap: 62px;
+}
+
+.filter-option {
+    text-align: center;
+}
+
+.transaction-group-bg {
+    background-color: lightgrey;
+    border-radius: 15px;
+}
+
+.transaction-top-group {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid black;
+}
+
+.total-spent-expenses-group {
+    display: flex;
+    gap: 10px;
+}
+
+.line-transaction {
+    transform: rotate(90deg);
+    align-self: center;
+}
+
+.expense-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.expense-title {
+    margin: 0px 0px 11px 0px;
+}
+
+.expense-info {
+    margin: 5px 0px;
+}
+
+.expense-left {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+}
+
+.expense-cost {
+    align-self: center;
 }
