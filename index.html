@@ -7,12 +7,13 @@
         <title>Honey Split</title>
     </head>
     <body>
+        <div class="overlay hidden"></div>
         <div class="nav">
             <div class="user-img-name">
                 <img class="user-image" src="/images/me.jpg" alt="your image" />
-                <h3>Name</h3>
+                <h3 class="user-nav-image dark-text">Our Expense</h3>
             </div>
-            <h1 id="title">Honey Split</h1>
+            <h1 id="title" class="dark-text">Honey Split</h1>
             <div class="hamburger">
                 <div class="line1 line"></div>
                 <div class="line2 line"></div>
@@ -39,14 +40,14 @@
             <div class="group-transaction-main">
                 <div class="user-img-name-transaction">
                     <img
-                        class="user-image-transaction"
+                        class="user-image-transaction user-left-img"
                         src="/images/me.jpg"
                         alt="your image"
                     />
-                    <h2 class="text-margin">Name</h2>
+                    <h2 class="text-margin">Jarvis</h2>
                 </div>
 
-                <div class="transation-total-group">
+                <div class="transaction-total-group">
                     <div class="transaction-box">
                         <h1 class="transaction-final-total text-margin">
                             $500
@@ -54,28 +55,75 @@
                     </div>
                     <div class="transaction-box">
                         <h4 class="transactions-all text-margin">
-                            Transactions: 500
+                            Transactions:
+                            <span class="transactions-num">500</span>
                         </h4>
+
                         <h4 class="total-spent text-margin">
-                            Total spent: 40,000
+                            Total spent:
+                            <span class="total-spent-num">40,000</span>
                         </h4>
                     </div>
                 </div>
 
                 <div class="user-img-name-transaction">
                     <img
-                        class="user-image-transaction"
+                        class="user-image-transaction user-right-img"
                         src="/images/me.jpg"
                         alt="your image"
                     />
-                    <h2 class="text-margin">Name</h2>
+                    <h2 class="text-margin user-main-img user-name_transaction">
+                        Brittany
+                    </h2>
                 </div>
             </div>
         </div>
 
-        <div class="options-group">
+        <!--<div class="options-group">
             <h5 class="transaction-option text-margin">Transactions</h5>
             <h5 class="activity-option text-margin">Recent Activity</h5>
+        </div>-->
+
+        <div class="modal hidden">
+            <button class="close-btn">x</button>
+            <form id="expense-form">
+                <h4>*Expense Title</h4>
+                <label for="form-title"></label>
+                <input id="form-title" name="form-title" type="text" required />
+
+                <h4>*Who Paid</h4>
+                <label for="user-name-select"></label>
+                <select name="user-name-select" id="user-name-select" required>
+                    <option value="" disabled selected>Choose who paid</option>
+                    <option value="user1">Jarvis</option>
+                    <option value="user2">Brittany</option>
+                </select>
+
+                <h4>*Amount</h4>
+                <label for="form-amount">$</label>
+                <input
+                    type="number"
+                    id="form-amount"
+                    name="form-amount"
+                    placeholder="0"
+                    min="0"
+                    step="0.01"
+                    required
+                />
+
+                <h4>Date</h4>
+                <label for="form-expense-date"></label>
+                <input
+                    type="date"
+                    id="form-expense-date"
+                    name="form-expense-date"
+                    value=""
+                />
+
+                <button class="btn save-transaction-btn">
+                    Save Transaction
+                </button>
+            </form>
         </div>
 
         <div class="transaction-all-group">
@@ -83,42 +131,51 @@
                 Filter Transactions
             </h5>
             <div class="transaction-group-bg">
-                <div class="transaction-top-group">
-                    <h5
-                        class="month-year text-margin transaction-top-group-margin"
-                    >
-                        February 2026
-                    </h5>
-                    <div class="total-spent-expenses-group">
+                <button class="btn add-transaction-btn">
+                    + Add transaction
+                </button>
+                <div class="transaction-all-info-group">
+                    <div class="transaction-top-group">
                         <h5
-                            class="total-spent-month text-margin transaction-top-group-margin"
+                            class="month-year text-margin transaction-top-group-margin"
                         >
-                            900 total spent
+                            February 2026
                         </h5>
-                        <div
-                            class="line line-transaction transaction-top-group-margin"
-                        ></div>
-                        <h5
-                            class="total-expenses-month text-margin transaction-top-group-margin"
-                        >
-                            20 expenses
-                        </h5>
+                        <div class="total-spent-expenses-group">
+                            <h5
+                                class="total-spent-month text-margin transaction-top-group-margin"
+                            >
+                                900 total spent
+                            </h5>
+                            <div
+                                class="line line-transaction transaction-top-group-margin"
+                            ></div>
+                            <h5
+                                class="total-expenses-month text-margin transaction-top-group-margin"
+                            >
+                                20 expenses
+                            </h5>
+                        </div>
                     </div>
-                </div>
-                <!-- add bottom line here -->
-                <div class="expense-group">
-                    <div class="expense-left">
-                        <h5 class="expense-title">
-                            <strong>Olive Garden</strong>
-                        </h5>
-                        <h6 class="expense-date expense-info">Feburary 19</h6>
-                        <h6 class="expense-user-name expense-info">
-                            <strong>Jarvis</strong> paid for
-                        </h6>
+
+                    <!-- add bottom line here -->
+                    <div class="expense-group">
+                        <div class="expense-left">
+                            <h5 class="expense-title">
+                                <strong>Olive Garden</strong>
+                            </h5>
+                            <h6 class="expense-date expense-info">
+                                February 19
+                            </h6>
+                            <h6 class="expense-user-name expense-info">
+                                paid by <strong>Jarvis</strong>
+                            </h6>
+                        </div>
+                        <h6 class="expense-cost">$70</h6>
                     </div>
-                    <h6 class="expense-cost">$70</h6>
                 </div>
             </div>
         </div>
+        <script src="javascript.js"></script>
     </body>
 </html>

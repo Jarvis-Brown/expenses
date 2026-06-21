@@ -1,12 +1,48 @@
+/* Colors */
+
+:root {
+    --darkest-brown: #3a3732;
+    --dark-brown: #8e7856;
+    --mid-brown: #ffd188;
+    --light-brown: #ffe2b3;
+    --white: #ffffff;
+    --accent: #ff5547;
+}
+
+.dark-text {
+    color: var(--darkest-brown);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0px;
+    padding: 0px;
+    min-height: 100%;
+}
+
+body {
+    background-color: var(--white);
+}
+
+/* NAV BAR*/
+
 .nav {
     display: flex;
+    position: relative;
     justify-content: space-between;
     align-items: center;
+    background-color: var(--white);
+    padding: 10px 20px;
 }
 
 .user-img-name {
     display: flex;
     gap: 25px;
+    align-items: center;
 }
 
 .user-image {
@@ -15,11 +51,17 @@
     border-radius: 50%;
 }
 
+#title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .line {
     width: 25px;
     height: 2px;
     gap: 5px;
-    background-color: #6c6;
+    background-color: var(--darkest-brown);
 }
 
 .hamburger {
@@ -28,12 +70,14 @@
     gap: 5px;
 }
 
+/* MAIN INFO PANEL*/
+
 .text-margin {
     margin: 0px;
 }
 
 .group-transaction-bg {
-    background-color: #6c6;
+    background-color: var(--dark-brown);
     padding: 5px 0px;
 }
 
@@ -47,6 +91,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    color: var(--white);
 }
 
 .user-image-transaction {
@@ -64,7 +109,7 @@
     );
 }
 
-.transation-total-group {
+.transaction-total-group {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -73,7 +118,7 @@
 
 .transaction-box {
     border-radius: 15px;
-    background-color: lightgray;
+    background-color: var(--white);
     padding: 30px;
 }
 
@@ -85,6 +130,8 @@
     text-align: center;
 }
 
+/* TAB OPTIONS*/
+
 .options-group {
     display: flex;
     justify-content: center;
@@ -93,6 +140,7 @@
 }
 
 .filter-option {
+    margin-top: 20px;
     text-align: center;
 }
 
@@ -100,12 +148,14 @@
     margin-bottom: 25px;
 }
 
+/* TRANSACTION GROUP */
+
 .transaction-all-group {
     margin: 0px 140px 30px 140px;
 }
 
 .transaction-group-bg {
-    background-color: lightgrey;
+    background-color: var(--mid-brown);
     border-radius: 15px;
     padding: 30px;
 }
@@ -132,13 +182,38 @@
     width: 10px;
 }
 
+.btn {
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px var(--dark-brown);
+    border: none;
+    padding: 15px;
+    color: var(--white);
+    background-color: var(--dark-brown);
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    transition: 0.3s;
+}
+
+.add-transaction-btn,
+.save-transaction-btn {
+    display: block;
+    margin: 0 auto 20px auto;
+}
+
+.save-transaction-btn {
+    margin-top: 30px;
+}
+
 .expense-group {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
 }
 
 .expense-title {
-    margin: 0px 0px 11px 0px;
+    margin: 0px 0px 5px 0px;
 }
 
 .expense-info {
@@ -153,4 +228,65 @@
 
 .expense-cost {
     align-self: center;
+    color: var(--accent);
+}
+
+.group-line {
+    display: block;
+    transform: rotate(180deg);
+    align-self: center;
+    width: 25px;
+    height: 2px;
+    gap: 5px;
+    background-color: var(--darkest-brown);
+}
+/* add expense modal */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.modal {
+    width: 90%;
+    max-width: 350px;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: var(--mid-brown);
+    border-radius: 15px;
+    padding: 30px 20px;
+    text-align: center;
+
+    z-index: 20;
+}
+
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+
+    border: none;
+    background: transparent;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--darkest-brown);
+}
+
+.hidden {
+    display: none;
+}
+
+#expense-form {
+    margin: 0 auto;
 }
