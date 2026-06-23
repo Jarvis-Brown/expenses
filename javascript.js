@@ -26,6 +26,10 @@ const totalSpentNum = document.querySelector(".total-spent-num");
 
 const addTransactionBtn = document.querySelector(".add-transaction-btn");
 
+const saveTransactionBtn = document.querySelector(".save-transaction-btn");
+
+const deleteTransactionBtn = document.querySelector(".delete-transaction-btn");
+
 const closeBtn = document.querySelector(".close-btn");
 
 const modalTransaction = document.querySelector(".modal");
@@ -51,7 +55,7 @@ const dateForm = document.getElementById("form-expense-date");
 const expenseForm = document.getElementById("expense-form");
 
 let dateNow = new Date();
-let formattedDate = dateNow.toISOString().split("T")[0];
+let formattedDate = dateNow.toISOString().split("T")[0]; // converting date
 dateForm.value = formattedDate;
 
 let expenseArray = [];
@@ -107,6 +111,10 @@ const createExpenseElement = (expense) => {
     expenseCost.innerText = `$${expense.amount}`;
     expenseGroup.appendChild(expenseCost);
 
+    expenseGroup.addEventListener("click", function () {
+        openExpenseModal(expense);
+    });
+
     console.log(expense);
 };
 
@@ -114,10 +122,31 @@ expenseArray.forEach((expense) => {
     createExpenseElement(expense);
 });
 
+// these are used to switch the save transaction button to edit transaction
+let editMode = false; // this is the default status of the button set to save the transaction
+let selectedExpenseId = null; // this is to check if exists. if it doesn't have an ID, it will save the transaction. if it has an id it will edit and the existing expense
+
+const openExpenseModal = (expense) => {
+    modalTransaction.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+    deleteTransactionBtn.classList.remove("hidden");
+
+    titleForm.value = expense.title;
+    dateForm.value = expense.date;
+    userNameForm.value = expense.paid;
+    amountForm.value = expense.amount;
+
+    editMode = true;
+    selectedExpenseId = expense.id; // edit this specific expense
+
+    saveTransactionBtn.innerText = "Edit Transaction";
+};
+
 expenseForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const addExpense = {
+        id: Date.now(),
         title: titleForm.value,
         paid: userNameForm.value,
         amount: Number(amountForm.value),
@@ -154,6 +183,13 @@ expenseArray.forEach((expense) => {
     groupedExpenses[monthYear].push(expense); // pushes empty array to groupExpenses object
 
     console.log(`${dateMonthName} ${dateYear}`);
+});
+
+// Delete Transaction
+
+deleteTransactionBtn.addEventListener("click", function () {
+    modalTransaction.classList.add("hidden");
+    overlay.classList.add("hidden");
 });
 
 // const groupedExpenseLength = groupedExpenses[monthYear].length;

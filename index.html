@@ -85,7 +85,7 @@
         </div>-->
 
         <div class="modal hidden">
-            <button class="close-btn">x</button>
+            <button type="button" class="close-btn">x</button>
             <form id="expense-form">
                 <h4>*Expense Title</h4>
                 <label for="form-title"></label>
@@ -120,8 +120,14 @@
                     value=""
                 />
 
-                <button class="btn save-transaction-btn">
+                <button type="submit" class="btn save-transaction-btn">
                     Save Transaction
+                </button>
+                <button
+                    type="button"
+                    class="btn save-transaction-btn delete-transaction-btn hidden"
+                >
+                    Delete Transaction
                 </button>
             </form>
         </div>
@@ -159,20 +165,6 @@
                     </div>
 
                     <!-- add bottom line here -->
-                    <div class="expense-group">
-                        <div class="expense-left">
-                            <h5 class="expense-title">
-                                <strong>Olive Garden</strong>
-                            </h5>
-                            <h6 class="expense-date expense-info">
-                                February 19
-                            </h6>
-                            <h6 class="expense-user-name expense-info">
-                                paid by <strong>Jarvis</strong>
-                            </h6>
-                        </div>
-                        <h6 class="expense-cost">$70</h6>
-                    </div>
                 </div>
             </div>
         </div>
