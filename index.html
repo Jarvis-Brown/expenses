@@ -11,7 +11,7 @@
         <div class="nav">
             <div class="user-img-name">
                 <img class="user-image" src="/images/me.jpg" alt="your image" />
-                <h3 class="user-nav-image dark-text">Our Expense</h3>
+                <h3 class="user-nav-image dark-text">Our Expenses</h3>
             </div>
             <h1 id="title" class="dark-text">Honey Split</h1>
             <div class="hamburger">
@@ -56,12 +56,12 @@
                     <div class="transaction-box">
                         <h4 class="transactions-all text-margin">
                             Transactions:
-                            <span class="transactions-num">500</span>
+                            <span class="transactions-num-all">500</span>
                         </h4>
 
                         <h4 class="total-spent text-margin">
                             Total spent:
-                            <span class="total-spent-num">40,000</span>
+                            <span class="total-spent-num-all">40,000</span>
                         </h4>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                 <div class="user-img-name-transaction">
                     <img
                         class="user-image-transaction user-right-img"
-                        src="/images/me.jpg"
+                        src="/images/brittany.jpg"
                         alt="your image"
                     />
                     <h2 class="text-margin user-main-img user-name_transaction">
@@ -95,8 +95,8 @@
                 <label for="user-name-select"></label>
                 <select name="user-name-select" id="user-name-select" required>
                     <option value="" disabled selected>Choose who paid</option>
-                    <option value="user1">Jarvis</option>
-                    <option value="user2">Brittany</option>
+                    <option value="Jarvis">Jarvis</option>
+                    <option value="Brittany">Brittany</option>
                 </select>
 
                 <h4>*Amount</h4>
@@ -146,12 +146,17 @@
                             class="month-year text-margin transaction-top-group-margin"
                         >
                             February 2026
+                            <span class="drop-arrow">▼</span>
                         </h5>
+
                         <div class="total-spent-expenses-group">
                             <h5
                                 class="total-spent-month text-margin transaction-top-group-margin"
                             >
-                                900 total spent
+                                <span class="total-spent-num"
+                                    ><span>$</span>900</span
+                                >
+                                total spent
                             </h5>
                             <div
                                 class="line line-transaction transaction-top-group-margin"
@@ -159,10 +164,12 @@
                             <h5
                                 class="total-expenses-month text-margin transaction-top-group-margin"
                             >
-                                20 expenses
+                                <span class="total-expense-month-num">20</span>
+                                expenses
                             </h5>
                         </div>
                     </div>
+                    <div class="expense-list"></div>
 
                     <!-- add bottom line here -->
                 </div>

@@ -1,50 +1,35 @@
+// 1.) Select Elements
+
 // Expense Transaction BG
 
 const transactionGroupBg = document.querySelector(".transaction-group-bg");
+const expenseList = document.querySelector(".expense-list");
 
 // nav bar
 
 const userImg = document.querySelector(".user-image");
-
 const userNavImg = document.querySelector(".user-nav-image");
-
 const hamburger = document.querySelector(".hamburger");
 
 // money and images display
 
 const userLeftImg = document.querySelector(".user-left-img");
 const userRightImg = document.querySelector(".user-right-img");
-
-const transactionAllNum = document.querySelector(".transaction-final-total");
-
+const transactionFinalTotal = document.querySelector(
+    ".transaction-final-total",
+);
 const transactionNum = document.querySelector(".transactions-num");
-
-const totalSpentNum = document.querySelector(".total-spent-num");
-//const month;
+const totalSpentNumAll = document.querySelector(".total-spent-num-all");
 
 // add expenses
 
 const addTransactionBtn = document.querySelector(".add-transaction-btn");
-
 const saveTransactionBtn = document.querySelector(".save-transaction-btn");
-
 const deleteTransactionBtn = document.querySelector(".delete-transaction-btn");
-
 const closeBtn = document.querySelector(".close-btn");
-
 const modalTransaction = document.querySelector(".modal");
-
 const overlay = document.querySelector(".overlay");
-
-addTransactionBtn.addEventListener("click", function () {
-    modalTransaction.classList.remove("hidden");
-    overlay.classList.remove("hidden");
-});
-
-closeBtn.addEventListener("click", function () {
-    modalTransaction.classList.add("hidden");
-    overlay.classList.add("hidden");
-});
+const monthYearSelect = document.querySelector(".month-year-select");
 
 // values of the form
 
@@ -54,11 +39,25 @@ const amountForm = document.getElementById("form-amount");
 const dateForm = document.getElementById("form-expense-date");
 const expenseForm = document.getElementById("expense-form");
 
+// ==========================================================================
+
+// 2.) App state / data
+
+let expenseArray = [];
+
+// these are used to switch the save transaction button to edit transaction
+let editMode = false; // this is the default status of the button set to save the transaction
+let selectedExpenseId = null; // this is to check if the expense exists. if it doesn't have an ID, it will save the transaction. if it has an id it will edit the existing expense
+
+let groupedExpenses = {};
+
+// ==========================================================================
+
+// .3) Setup values
+
 let dateNow = new Date();
 let formattedDate = dateNow.toISOString().split("T")[0]; // converting date
 dateForm.value = formattedDate;
-
-let expenseArray = [];
 
 const monthsArray = [
     "January",
@@ -75,10 +74,71 @@ const monthsArray = [
     "December",
 ];
 
-const storageData = localStorage.getItem("storeExpense"); // converts string to object so i can get the data and use it
-if (storageData) {
-    expenseArray = JSON.parse(storageData);
-}
+// ==========================================================================
+
+// .4) Storage Functions
+
+const loadExpenses = () => {
+    const storageData = localStorage.getItem("storeExpense"); // converts string to object so i can get the data and use it
+    if (storageData) {
+        expenseArray = JSON.parse(storageData);
+    }
+};
+
+// Modal Functions
+
+const openEditExpenseModal = (expense) => {
+    showModal();
+    deleteTransactionBtn.classList.remove("hidden");
+
+    titleForm.value = expense.title;
+    dateForm.value = expense.date;
+    userNameForm.value = expense.paid;
+    amountForm.value = expense.amount;
+
+    editMode = true;
+    selectedExpenseId = expense.id; // edit this specific expense
+
+    saveTransactionBtn.innerText = "Edit Transaction";
+};
+
+const showModal = () => {
+    modalTransaction.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+};
+
+const hideModal = () => {
+    modalTransaction.classList.add("hidden");
+    overlay.classList.add("hidden");
+};
+
+// Render Functions
+
+const groupExpenseYearMonth = () => {
+    const expenseMonth = Object.groupBy(expenseArray, (expense) => {
+        return expense.date.slice(0, 7);
+    });
+
+    return expenseMonth;
+};
+
+const formatMonthYear = (monthKey) => {
+    const [year, month] = monthKey.split("-");
+    const monthName = monthsArray[Number(month) - 1];
+
+    return `${monthName} ${year}`;
+};
+
+const renderMonthExpenses = (monthKey) => {
+    const groupedExpenses = groupExpenseYearMonth();
+    const monthExpenses = groupedExpenses[monthKey] || [];
+
+    expenseList.innerHTML = "";
+
+    monthExpenses.forEach((expense) => {
+        createExpenseElement(expense);
+    });
+};
 
 const createExpenseElement = (expense) => {
     // create and append expense-group dom
@@ -90,7 +150,7 @@ const createExpenseElement = (expense) => {
     const expenseLeft = document.createElement("div");
 
     expenseGroup.classList.add("expense-group");
-    transactionGroupBg.appendChild(expenseGroup);
+    expenseList.appendChild(expenseGroup);
 
     expenseLeft.classList.add("expense-left");
     expenseGroup.appendChild(expenseLeft);
@@ -112,88 +172,121 @@ const createExpenseElement = (expense) => {
     expenseGroup.appendChild(expenseCost);
 
     expenseGroup.addEventListener("click", function () {
-        openExpenseModal(expense);
+        openEditExpenseModal(expense);
     });
 
     console.log(expense);
 };
 
-expenseArray.forEach((expense) => {
-    createExpenseElement(expense);
+const updateSelectedExpense = () => {
+    const expenseToEdit = expenseArray.find((expense) => {
+        return expense.id === selectedExpenseId;
+    });
+
+    if (!expenseToEdit) return;
+
+    expenseToEdit.title = titleForm.value;
+    expenseToEdit.date = dateForm.value;
+    expenseToEdit.paid = userNameForm.value;
+    expenseToEdit.amount = Number(amountForm.value);
+
+    localStorage.setItem("storeExpense", JSON.stringify(expenseArray));
+
+    renderUpdatedExpenses();
+};
+
+const renderUpdatedExpenses = () => {
+    expenseList.innerText = "";
+    expenseArray.forEach((expense) => {
+        createExpenseElement(expense);
+    });
+};
+
+const removeExpense = () => {
+    const expenseIndex = expenseArray.findIndex((expense) => {
+        return expense.id === selectedExpenseId;
+    });
+
+    if (expenseIndex !== -1) {
+        expenseArray.splice(expenseIndex, 1);
+    }
+
+    localStorage.setItem("storeExpense", JSON.stringify(expenseArray));
+
+    renderUpdatedExpenses();
+};
+
+// Calculate Functions
+
+const calculateMonthExpensesAmount = (totalMonth) => {
+    const groupedExpenseObject = groupExpenseYearMonth();
+    const monthExpensesArray = groupedExpenseObject[totalMonth];
+    const totalSpentMonth = monthExpensesArray.reduce((acc, num) => {
+        return acc + num;
+    }, 0);
+    console.log(totalSpentMonth);
+};
+
+const calculateTotalExpenses = (monthKey) => {
+    const groupedExpenseObject = groupExpenseYearMonth();
+    const monthExpenseArray = groupedExpenseObject[monthKey] || [];
+    const totalMonthExpenseArray = monthExpenseArray.length;
+    return totalMonthExpenseArray;
+};
+
+// always shows the latest month, if previous month was not settled add a reminder to the modal
+
+// need to tie it to the modal
+
+// ==========================================================================
+
+// .5) Event Listeners
+
+addTransactionBtn.addEventListener("click", function () {
+    showModal();
 });
 
-// these are used to switch the save transaction button to edit transaction
-let editMode = false; // this is the default status of the button set to save the transaction
-let selectedExpenseId = null; // this is to check if exists. if it doesn't have an ID, it will save the transaction. if it has an id it will edit and the existing expense
+closeBtn.addEventListener("click", function () {
+    hideModal();
+});
 
-const openExpenseModal = (expense) => {
-    modalTransaction.classList.remove("hidden");
-    overlay.classList.remove("hidden");
-    deleteTransactionBtn.classList.remove("hidden");
-
-    titleForm.value = expense.title;
-    dateForm.value = expense.date;
-    userNameForm.value = expense.paid;
-    amountForm.value = expense.amount;
-
-    editMode = true;
-    selectedExpenseId = expense.id; // edit this specific expense
-
-    saveTransactionBtn.innerText = "Edit Transaction";
-};
+deleteTransactionBtn.addEventListener("click", function () {
+    removeExpense();
+    modalTransaction.classList.add("hidden");
+    overlay.classList.add("hidden");
+});
 
 expenseForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const addExpense = {
-        id: Date.now(),
-        title: titleForm.value,
-        paid: userNameForm.value,
-        amount: Number(amountForm.value),
-        date: dateForm.value,
-    };
-
-    expenseArray.push(addExpense);
-
-    localStorage.setItem("storeExpense", JSON.stringify(expenseArray)); // local storage needs to be converted to string to be stored
-
-    modalTransaction.classList.add("hidden");
-    overlay.classList.add("hidden");
-
-    createExpenseElement(addExpense);
-});
-
-let groupedExpenses = {};
-
-expenseArray.forEach((expense) => {
-    const dateSplit = expense.date.split("-");
-    const dateYear = dateSplit[0];
-    const dateMonth = dateSplit[1];
-    const dateDay = dateSplit[2];
-    const monthIndex = Number(dateMonth) - 1; //
-    const dateMonthName = monthsArray[monthIndex];
-
-    const monthYear = `${dateMonthName} ${dateYear}`;
-
-    if (!groupedExpenses[monthYear]) {
-        // creates a monthYear folder array if it doesnt exist in groupExpenses
-        groupedExpenses[monthYear] = []; // creates the empty array
+    if (editMode) {
+        updateSelectedExpense();
+    } else {
+        const addExpense = {
+            id: Date.now(),
+            title: titleForm.value,
+            paid: userNameForm.value,
+            amount: Number(amountForm.value),
+            date: dateForm.value,
+        };
+        expenseArray.push(addExpense);
+        createExpenseElement(addExpense);
     }
 
-    groupedExpenses[monthYear].push(expense); // pushes empty array to groupExpenses object
+    localStorage.setItem("storeExpense", JSON.stringify(expenseArray));
 
-    console.log(`${dateMonthName} ${dateYear}`);
+    hideModal();
 });
 
-// Delete Transaction
+// ==========================================================================
 
-deleteTransactionBtn.addEventListener("click", function () {
-    modalTransaction.classList.add("hidden");
-    overlay.classList.add("hidden");
+// .6) Page load
+
+loadExpenses();
+
+expenseArray.forEach((expense) => {
+    createExpenseElement(expense);
 });
-
-// const groupedExpenseLength = groupedExpenses[monthYear].length;
-console.log(groupedExpenses);
 
 // need to calculate all the expenses in the expense group and add it to the main display
 
