@@ -49,8 +49,6 @@ let expenseArray = [];
 let editMode = false; // this is the default status of the button set to save the transaction
 let selectedExpenseId = null; // this is to check if the expense exists. if it doesn't have an ID, it will save the transaction. if it has an id it will edit the existing expense
 
-let groupedExpenses = {};
-
 // ==========================================================================
 
 // .3) Setup values
@@ -58,6 +56,7 @@ let groupedExpenses = {};
 let dateNow = new Date();
 let formattedDate = dateNow.toISOString().split("T")[0]; // converting date
 dateForm.value = formattedDate;
+const currentMonthKey = new Date().toISOString().slice(0, 7);
 
 const monthsArray = [
     "January",
@@ -192,14 +191,7 @@ const updateSelectedExpense = () => {
 
     localStorage.setItem("storeExpense", JSON.stringify(expenseArray));
 
-    renderUpdatedExpenses();
-};
-
-const renderUpdatedExpenses = () => {
-    expenseList.innerText = "";
-    expenseArray.forEach((expense) => {
-        createExpenseElement(expense);
-    });
+    renderMonthExpenses(currentMonthKey);
 };
 
 const removeExpense = () => {
@@ -213,10 +205,10 @@ const removeExpense = () => {
 
     localStorage.setItem("storeExpense", JSON.stringify(expenseArray));
 
-    renderUpdatedExpenses();
+    renderMonthExpenses(currentMonthKey);
 };
 
-// Calculate Functions
+//  Functions
 
 const calculateMonthExpensesAmount = (totalMonth) => {
     const groupedExpenseObject = groupExpenseYearMonth();
@@ -270,7 +262,7 @@ expenseForm.addEventListener("submit", function (e) {
             date: dateForm.value,
         };
         expenseArray.push(addExpense);
-        createExpenseElement(addExpense);
+        renderMonthExpenses(currentMonthKey);
     }
 
     localStorage.setItem("storeExpense", JSON.stringify(expenseArray));
@@ -284,9 +276,7 @@ expenseForm.addEventListener("submit", function (e) {
 
 loadExpenses();
 
-expenseArray.forEach((expense) => {
-    createExpenseElement(expense);
-});
+renderMonthExpenses(currentMonthKey);
 
 // need to calculate all the expenses in the expense group and add it to the main display
 
