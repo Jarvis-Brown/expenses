@@ -142,16 +142,34 @@
                 </button>
                 <div class="transaction-all-info-group">
                     <div class="transaction-top-group">
-                        <div class="month-picker hidden">
-                            <select id="year-select"></select>
-                            <select id="month-select"></select>
+                        <div class="month-filter">
+                            <button
+                                type="button"
+                                class="month-year text-margin transaction-top-group-margin"
+                            >
+                                <span class="month-year-select"
+                                    >February 2026</span
+                                >
+                                <span class="drop-arrow">▼</span>
+                            </button>
+                            <div class="month-picker hidden">
+                                <select id="year-select"></select>
+                                <select id="month-select">
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
                         </div>
-                        <h5
-                            class="month-year text-margin transaction-top-group-margin"
-                        >
-                            February 2026
-                            <span class="drop-arrow">▼</span>
-                        </h5>
 
                         <div class="total-spent-expenses-group">
                             <h5

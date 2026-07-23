@@ -29,7 +29,6 @@ const deleteTransactionBtn = document.querySelector(".delete-transaction-btn");
 const closeBtn = document.querySelector(".close-btn");
 const modalTransaction = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
-const monthYearSelect = document.querySelector(".month-year-select");
 
 // values of the form
 
@@ -38,6 +37,12 @@ const userNameForm = document.getElementById("user-name-select");
 const amountForm = document.getElementById("form-amount");
 const dateForm = document.getElementById("form-expense-date");
 const expenseForm = document.getElementById("expense-form");
+
+// calendar
+const monthYearSelect = document.querySelector(".month-year-select");
+const monthYear = document.querySelector("#year-select");
+const MonthSelect = document.querySelector("#month-select");
+const monthPicker = document.querySelector(".month-picker");
 
 // ==========================================================================
 
@@ -268,6 +273,10 @@ expenseForm.addEventListener("submit", function (e) {
     localStorage.setItem("storeExpense", JSON.stringify(expenseArray));
 
     hideModal();
+});
+
+monthYearSelect.addEventListener("click", function () {
+    monthPicker.classList.remove("hidden");
 });
 
 // ==========================================================================

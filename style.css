@@ -177,6 +177,38 @@ body {
     color: var(--dark-brown);
 }
 
+.month-filter {
+    position: relative;
+}
+
+.month-picker {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    z-index: 10;
+}
+
+.month-picker.hidden {
+    display: none;
+}
+
+.month-year,
+#month-select,
+#year-select {
+    border: hidden;
+    border-radius: 5px;
+    padding: 5px;
+}
+
 .drop-arrow,
 .month-year:hover {
     cursor: pointer;
