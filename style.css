@@ -181,7 +181,7 @@ body {
     position: relative;
 }
 
-.month-picker {
+.month-year-picker {
     position: absolute;
     top: calc(100% + 8px);
     left: 0;

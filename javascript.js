@@ -40,9 +40,9 @@ const expenseForm = document.getElementById("expense-form");
 
 // calendar
 const monthYearSelect = document.querySelector(".month-year-select");
-const monthYear = document.querySelector("#year-select");
+const yearSelect = document.querySelector("#year-select");
 const MonthSelect = document.querySelector("#month-select");
-const monthPicker = document.querySelector(".month-picker");
+const monthYearPicker = document.querySelector(".month-year-picker");
 
 // ==========================================================================
 
@@ -61,7 +61,7 @@ let selectedExpenseId = null; // this is to check if the expense exists. if it d
 let dateNow = new Date();
 let formattedDate = dateNow.toISOString().split("T")[0]; // converting date
 dateForm.value = formattedDate;
-const currentMonthKey = new Date().toISOString().slice(0, 7);
+const currentMonthKey = new Date().toISOString().slice(0, 7); // example: 2026-07 (this is 7 spots)
 
 const monthsArray = [
     "January",
@@ -119,6 +119,7 @@ const hideModal = () => {
 // Render Functions
 
 const groupExpenseYearMonth = () => {
+    // groups the expenses by month and year. cuts off the day
     const expenseMonth = Object.groupBy(expenseArray, (expense) => {
         return expense.date.slice(0, 7);
     });
@@ -127,6 +128,7 @@ const groupExpenseYearMonth = () => {
 };
 
 const formatMonthYear = (monthKey) => {
+    // cuts off the day to only show the month and year
     const [year, month] = monthKey.split("-");
     const monthName = monthsArray[Number(month) - 1];
 
@@ -134,6 +136,7 @@ const formatMonthYear = (monthKey) => {
 };
 
 const renderMonthExpenses = (monthKey) => {
+    // renders the month expense list
     const groupedExpenses = groupExpenseYearMonth();
     const monthExpenses = groupedExpenses[monthKey] || [];
 
@@ -276,8 +279,22 @@ expenseForm.addEventListener("submit", function (e) {
 });
 
 monthYearSelect.addEventListener("click", function () {
-    monthPicker.classList.remove("hidden");
+    monthYearPicker.classList.remove("hidden");
 });
+
+const availableMonthKeys = () => {
+    const monthAvailable = Object.keys(groupExpenseYearMonth());
+    //let monthList = monthAvailable.filter(month);
+
+    //monthAvailable.slice(0, 4);
+};
+
+// check to see if the year exists in the list
+// add those years to the yearSelect
+// add it up with the month selected
+
+// yearSelect
+// MonthSelect
 
 // ==========================================================================
 
@@ -285,7 +302,8 @@ monthYearSelect.addEventListener("click", function () {
 
 loadExpenses();
 
-renderMonthExpenses(currentMonthKey);
+//renderMonthExpenses(currentMonthKey);
+renderMonthExpenses("2026-02");
 
 // need to calculate all the expenses in the expense group and add it to the main display
 
