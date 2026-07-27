@@ -41,14 +41,14 @@ const expenseForm = document.getElementById("expense-form");
 // calendar
 const monthYearSelect = document.querySelector(".month-year-select");
 const yearSelect = document.querySelector("#year-select");
-const MonthSelect = document.querySelector("#month-select");
+const monthSelect = document.querySelector("#month-select");
 const monthYearPicker = document.querySelector(".month-year-picker");
 
 // ==========================================================================
 
 // 2.) App state / data
 
-let expenseArray = [];
+let expenseArray = []; // expenses added to array
 
 // these are used to switch the save transaction button to edit transaction
 let editMode = false; // this is the default status of the button set to save the transaction
@@ -58,10 +58,10 @@ let selectedExpenseId = null; // this is to check if the expense exists. if it d
 
 // .3) Setup values
 
-let dateNow = new Date();
+let dateNow = new Date(); // creates a date object for current date
 let formattedDate = dateNow.toISOString().split("T")[0]; // converting date
 dateForm.value = formattedDate;
-const currentMonthKey = new Date().toISOString().slice(0, 7); // example: 2026-07 (this is 7 spots)
+const currentMonthKey = new Date().toISOString().slice(0, 7); // Stores the current month as "YYYY-MM" (this is 7 spots)
 
 const monthsArray = [
     "January",
@@ -83,8 +83,10 @@ const monthsArray = [
 // .4) Storage Functions
 
 const loadExpenses = () => {
+    // function to load all expenses
     const storageData = localStorage.getItem("storeExpense"); // converts string to object so i can get the data and use it
     if (storageData) {
+        // if expenses exist in local storage, convert back to an object and places the expense object into the array
         expenseArray = JSON.parse(storageData);
     }
 };
@@ -92,6 +94,7 @@ const loadExpenses = () => {
 // Modal Functions
 
 const openEditExpenseModal = (expense) => {
+    // open edit modal screen version
     showModal();
     deleteTransactionBtn.classList.remove("hidden");
 
@@ -107,11 +110,13 @@ const openEditExpenseModal = (expense) => {
 };
 
 const showModal = () => {
+    // Displays the add/edit expense modal.
     modalTransaction.classList.remove("hidden");
     overlay.classList.remove("hidden");
 };
 
 const hideModal = () => {
+    // Hides the add/edit expense modal off
     modalTransaction.classList.add("hidden");
     overlay.classList.add("hidden");
 };
@@ -120,6 +125,8 @@ const hideModal = () => {
 
 const groupExpenseYearMonth = () => {
     // groups the expenses by month and year. cuts off the day
+    // Returns an object where each key is a month (YYYY-MM)
+    // and the value is an array of expenses for that month.
     const expenseMonth = Object.groupBy(expenseArray, (expense) => {
         return expense.date.slice(0, 7);
     });
@@ -140,7 +147,7 @@ const renderMonthExpenses = (monthKey) => {
     const groupedExpenses = groupExpenseYearMonth();
     const monthExpenses = groupedExpenses[monthKey] || [];
 
-    expenseList.innerHTML = "";
+    expenseList.innerHTML = ""; // Clear the current expense list before rendering.
 
     monthExpenses.forEach((expense) => {
         createExpenseElement(expense);
@@ -148,7 +155,8 @@ const renderMonthExpenses = (monthKey) => {
 };
 
 const createExpenseElement = (expense) => {
-    // create and append expense-group dom
+    // creates the expense and append expense-group dom
+
     const expenseTitle = document.createElement("h5");
     const expenseDate = document.createElement("h6");
     const expenseUserPaid = document.createElement("h6");
@@ -186,6 +194,7 @@ const createExpenseElement = (expense) => {
 };
 
 const updateSelectedExpense = () => {
+    // updates a selected expense
     const expenseToEdit = expenseArray.find((expense) => {
         return expense.id === selectedExpenseId;
     });
@@ -197,12 +206,13 @@ const updateSelectedExpense = () => {
     expenseToEdit.paid = userNameForm.value;
     expenseToEdit.amount = Number(amountForm.value);
 
-    localStorage.setItem("storeExpense", JSON.stringify(expenseArray));
+    localStorage.setItem("storeExpense", JSON.stringify(expenseArray)); // updates local storage expense data
 
     renderMonthExpenses(currentMonthKey);
 };
 
 const removeExpense = () => {
+    // deletes the expense
     const expenseIndex = expenseArray.findIndex((expense) => {
         return expense.id === selectedExpenseId;
     });
@@ -213,12 +223,13 @@ const removeExpense = () => {
 
     localStorage.setItem("storeExpense", JSON.stringify(expenseArray));
 
-    renderMonthExpenses(currentMonthKey);
+    renderMonthExpenses(currentMonthKey); // renders the current time
 };
 
 //  Functions
 
 const calculateMonthExpensesAmount = (totalMonth) => {
+    // calculates the monthly expense amount
     const groupedExpenseObject = groupExpenseYearMonth();
     const monthExpensesArray = groupedExpenseObject[totalMonth];
     const totalSpentMonth = monthExpensesArray.reduce((acc, num) => {
@@ -228,6 +239,7 @@ const calculateMonthExpensesAmount = (totalMonth) => {
 };
 
 const calculateTotalExpenses = (monthKey) => {
+    // calculates the total number of expenses in the month
     const groupedExpenseObject = groupExpenseYearMonth();
     const monthExpenseArray = groupedExpenseObject[monthKey] || [];
     const totalMonthExpenseArray = monthExpenseArray.length;
@@ -243,23 +255,27 @@ const calculateTotalExpenses = (monthKey) => {
 // .5) Event Listeners
 
 addTransactionBtn.addEventListener("click", function () {
+    // shows transaction modal when button clicked
     showModal();
 });
 
 closeBtn.addEventListener("click", function () {
-    hideModal();
+    hideModal(); // closes modal when button clicked
 });
 
 deleteTransactionBtn.addEventListener("click", function () {
+    //deletes expense when button clicked
     removeExpense();
     modalTransaction.classList.add("hidden");
     overlay.classList.add("hidden");
 });
 
 expenseForm.addEventListener("submit", function (e) {
+    // adds new expense to the array
     e.preventDefault();
 
     if (editMode) {
+        // checks if expense already exists and if so, it updates the existing expense
         updateSelectedExpense();
     } else {
         const addExpense = {
@@ -279,6 +295,7 @@ expenseForm.addEventListener("submit", function (e) {
 });
 
 monthYearSelect.addEventListener("click", function () {
+    // show the month and year selector after pressing month year button
     monthYearPicker.classList.remove("hidden");
 });
 
@@ -294,13 +311,13 @@ const availableMonthKeys = () => {
 // add it up with the month selected
 
 // yearSelect
-// MonthSelect
+// monthSelect
 
 // ==========================================================================
 
 // .6) Page load
 
-loadExpenses();
+loadExpenses(); // loads the page after code at the top has run
 
 //renderMonthExpenses(currentMonthKey);
 renderMonthExpenses("2026-02");
