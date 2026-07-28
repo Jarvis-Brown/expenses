@@ -201,6 +201,12 @@ body {
     display: none;
 }
 
+.month-year-picker,
+#month-select,
+#year-select :hover {
+    cursor: pointer;
+}
+
 .month-year,
 #month-select,
 #year-select {

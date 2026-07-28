@@ -17,10 +17,17 @@ import {
     userNameSelect,
     amountInput,
     dateInput,
+    yearSelect,
+    monthSelect,
 } from "./dom.js";
 import { expenseArray, editMode } from "./state.js";
 import { saveExpenses, loadExpenses } from "./storage.js";
-import { currentMonthKey } from "./calendar.js";
+import {
+    currentMonthKey,
+    populateYearOption,
+    availableMonthsForYear,
+    populateMonthOption,
+} from "./calendar.js";
 
 addTransactionBtn.addEventListener("click", function () {
     // shows transaction modal when button clicked
@@ -66,9 +73,16 @@ monthYearSelect.addEventListener("click", function () {
     monthYearPicker.classList.remove("hidden");
 });
 
+yearSelect.addEventListener("change", () => {
+    const selectedYear = yearSelect.value;
+
+    monthSelect.innerHTML = "";
+
+    populateMonthOption(selectedYear);
+});
+
 // .6) Page load
 
 loadExpenses(); // loads the page after code at the top has run
 
-//renderMonthExpenses(currentMonthKey);
-renderMonthExpenses(currentMonthKey); // temporary testing
+populateYearOption();
