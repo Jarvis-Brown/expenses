@@ -27,6 +27,8 @@ import {
     populateYearOption,
     availableMonthsForYear,
     populateMonthOption,
+    showSelectedMonthExpenses,
+    monthYearSelectName,
 } from "./calendar.js";
 
 addTransactionBtn.addEventListener("click", function () {
@@ -81,8 +83,15 @@ yearSelect.addEventListener("change", () => {
     populateMonthOption(selectedYear);
 });
 
+monthSelect.addEventListener("change", () => {
+    showSelectedMonthExpenses();
+    monthYearPicker.classList.add("hidden");
+});
+
 // .6) Page load
 
-loadExpenses(); // loads the page after code at the top has run
+loadExpenses(); // loads expenses from localStorage into expenseArray
+renderMonthExpenses(currentMonthKey); // displays the current months expenses
+monthYearSelectName(currentMonthKey);
 
 populateYearOption();

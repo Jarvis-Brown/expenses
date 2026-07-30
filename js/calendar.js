@@ -1,7 +1,7 @@
 // .3) Setup values
 
-import { dateInput, yearSelect, monthSelect } from "./dom.js";
-import { groupExpenseYearMonth } from "./expenses.js";
+import { dateInput, yearSelect, monthSelect, monthYearSelect } from "./dom.js";
+import { groupExpenseYearMonth, renderMonthExpenses } from "./expenses.js";
 
 const dateNow = new Date(); // creates a date object for current date
 const formattedDate = dateNow.toISOString().split("T")[0]; // converting date
@@ -85,6 +85,16 @@ export const populateMonthOption = (selectedYear) => {
         monthOption.textContent = monthName;
         monthSelect.append(monthOption);
     });
+};
+
+export const monthYearSelectName = (monthKey) => {
+    monthYearSelect.textContent = formatMonthYear(monthKey);
+};
+
+export const showSelectedMonthExpenses = () => {
+    const selectedMonth = monthSelect.value;
+    renderMonthExpenses(selectedMonth);
+    monthYearSelectName(selectedMonth);
 };
 
 // need to attach the selection of the year to the months available.

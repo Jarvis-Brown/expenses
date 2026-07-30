@@ -49,3 +49,5 @@ export const monthYearSelect = document.querySelector(".month-year-select");
 export const yearSelect = document.querySelector("#year-select");
 export const monthSelect = document.querySelector("#month-select");
 export const monthYearPicker = document.querySelector(".month-year-picker");
+
+console.log(monthYearSelect);
