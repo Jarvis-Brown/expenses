@@ -103,3 +103,28 @@ export const removeExpense = (monthKey) => {
 
     renderMonthExpenses(monthKey); // renders the current time
 };
+
+export const calculateTotalMonthlyExpenses = (monthKey) => {
+    const groupExpenses = groupExpenseYearMonth();
+    const monthExpenses = groupExpenses[monthKey] || [];
+    return monthExpenses.length;
+};
+
+export const calculateTotalMonthlyAmount = (monthKey) => {
+    const groupExpenses = groupExpenseYearMonth();
+    const monthExpenses = groupExpenses[monthKey] || [];
+
+    const totalMonthExpense = monthExpenses.reduce((acc, expense) => {
+        return acc + expense.amount;
+    }, 0);
+    return totalMonthExpense;
+};
+
+export const calculateAllExpensesAmount = () => {
+    const totalExpenseAmount = expenseArray.reduce((acc, expense) => {
+        return acc + expense.amount;
+    }, 0);
+    return totalExpenseAmount;
+};
+
+export const calculateAllExpenses = () => expenseArray.length; // returns the total expenses in the array

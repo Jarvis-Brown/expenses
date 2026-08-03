@@ -22,6 +22,12 @@ export const transactionFinalTotal = document.querySelector(
 );
 export const transactionNum = document.querySelector(".transactions-num");
 export const totalSpentNumAll = document.querySelector(".total-spent-num-all");
+export const transactionTotalMonth = document.querySelector(
+    ".total-spent-num-month",
+);
+export const transactionNumAll = document.querySelector(
+    ".transactions-num-all",
+);
 
 // add expenses
 
@@ -35,6 +41,9 @@ export const deleteTransactionBtn = document.querySelector(
 export const closeBtn = document.querySelector(".close-btn");
 export const modalTransaction = document.querySelector(".modal");
 export const overlay = document.querySelector(".overlay");
+export const totalExpenseMonthNum = document.querySelector(
+    ".total-expense-month-num",
+);
 
 // values of the form
 

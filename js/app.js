@@ -5,6 +5,10 @@ import {
     removeExpense,
     updateSelectedExpense,
     renderMonthExpenses,
+    calculateTotalMonthlyExpenses,
+    calculateTotalMonthlyAmount,
+    calculateAllExpensesAmount,
+    calculateAllExpenses,
 } from "./expenses.js";
 import {
     closeBtn,
@@ -19,6 +23,10 @@ import {
     dateInput,
     yearSelect,
     monthSelect,
+    totalExpenseMonthNum,
+    transactionTotalMonth,
+    totalSpentNumAll,
+    transactionNumAll,
 } from "./dom.js";
 import { expenseArray, editMode } from "./state.js";
 import { saveExpenses, loadExpenses } from "./storage.js";
@@ -43,6 +51,7 @@ closeBtn.addEventListener("click", function () {
 deleteTransactionBtn.addEventListener("click", function () {
     //deletes expense when button clicked
     removeExpense(currentMonthKey);
+    updateAllExpenseTotals();
     hideModal();
 });
 
@@ -66,6 +75,7 @@ expenseForm.addEventListener("submit", function (e) {
     }
 
     saveExpenses();
+    updateAllExpenseTotals();
 
     hideModal();
 });
@@ -84,14 +94,41 @@ yearSelect.addEventListener("change", () => {
 });
 
 monthSelect.addEventListener("change", () => {
+    const selectedMonth = monthSelect.value;
+
+    const monthlyAmount = calculateTotalMonthlyAmount(selectedMonth);
+    const monthlyCount = calculateTotalMonthlyExpenses(selectedMonth);
+
     showSelectedMonthExpenses();
+
+    transactionTotalMonth.textContent = monthlyAmount;
+    totalExpenseMonthNum.textContent = monthlyCount;
+
     monthYearPicker.classList.add("hidden");
 });
 
 // .6) Page load
 
+const updateAllExpenseTotals = () => {
+    const totalExpenses = calculateAllExpenses();
+    const allExpensesAmount = calculateAllExpensesAmount();
+
+    transactionNumAll.textContent = totalExpenses;
+    totalSpentNumAll.textContent = allExpensesAmount;
+};
+
 loadExpenses(); // loads expenses from localStorage into expenseArray
 renderMonthExpenses(currentMonthKey); // displays the current months expenses
 monthYearSelectName(currentMonthKey);
+const monthlyAmount = calculateTotalMonthlyAmount(currentMonthKey);
+const monthlyCount = calculateTotalMonthlyExpenses(currentMonthKey);
+const totalExpenses = calculateAllExpenses();
+const allExpensesAmount = calculateAllExpensesAmount();
 
+transactionTotalMonth.textContent = monthlyAmount;
+totalExpenseMonthNum.textContent = monthlyCount;
+transactionNumAll.textContent = totalExpenses;
+totalSpentNumAll.textContent = allExpensesAmount;
+
+updateAllExpenseTotals();
 populateYearOption();

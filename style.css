@@ -229,7 +229,7 @@ body {
     gap: 10px;
 }
 
-.total-spent-num,
+.total-spent-num-group,
 .total-expense-month-num {
     color: var(--accent);
 }
