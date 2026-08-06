@@ -128,3 +128,14 @@ export const calculateAllExpensesAmount = () => {
 };
 
 export const calculateAllExpenses = () => expenseArray.length; // returns the total expenses in the array
+
+export const calculateMonthlyBalance = (monthKey, userOne, userTwo) => {
+    const groupExpenses = groupExpenseYearMonth();
+    const monthExpenses = groupExpenses[monthKey] || [];
+    const userOneExpenses = monthExpenses.forEach((expense) => {
+        return expense.paid === userOne;
+    });
+    const userTwoExpenses = monthExpenses.forEach((expense) => {
+        return expense.paid === userTwo;
+    });
+};

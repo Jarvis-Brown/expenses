@@ -20,6 +20,8 @@ export const userRightImg = document.querySelector(".user-right-img");
 export const transactionFinalTotal = document.querySelector(
     ".transaction-final-total",
 );
+export const leftSideUser = document.querySelector(".left-side-user");
+export const RightSideUser = document.querySelector(".right-side-user");
 export const transactionNum = document.querySelector(".transactions-num");
 export const totalSpentNumAll = document.querySelector(".total-spent-num-all");
 export const transactionTotalMonth = document.querySelector(

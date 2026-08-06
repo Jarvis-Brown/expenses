@@ -115,6 +115,18 @@ body {
     );
 }
 
+.user-owes {
+    color: var(--white);
+}
+
+.arrow {
+    width: 170px;
+}
+
+.right-arrow {
+    transform: scaleX(-1);
+}
+
 .transaction-total-group {
     display: flex;
     flex-direction: column;
