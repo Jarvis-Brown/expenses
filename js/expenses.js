@@ -8,6 +8,7 @@ import {
 } from "./dom.js";
 import { openEditExpenseModal } from "./modal.js";
 import { saveExpenses } from "./storage.js";
+import { currentMonthKey } from "./calendar.js";
 
 export const groupExpenseYearMonth = () => {
     // groups the expenses by month and year. cuts off the day
@@ -129,13 +130,47 @@ export const calculateAllExpensesAmount = () => {
 
 export const calculateAllExpenses = () => expenseArray.length; // returns the total expenses in the array
 
-export const calculateMonthlyBalance = (monthKey, userOne, userTwo) => {
-    const groupExpenses = groupExpenseYearMonth();
-    const monthExpenses = groupExpenses[monthKey] || [];
-    const userOneExpenses = monthExpenses.forEach((expense) => {
-        return expense.paid === userOne;
-    });
-    const userTwoExpenses = monthExpenses.forEach((expense) => {
-        return expense.paid === userTwo;
-    });
+export const calculateMonthlyBalance = (monthKey, userOneName, userTwoName) => {
+    const groupedExpenses = groupExpenseYearMonth();
+    const monthExpenses = groupedExpenses[monthKey] || [];
+
+    const userOnePaid = monthExpenses.reduce((total, expense) => {
+        if (expense.paid === userOneName) {
+            return total + expense.amount;
+        }
+
+        return total;
+    }, 0);
+
+    const userTwoPaid = monthExpenses.reduce((total, expense) => {
+        if (expense.paid === userTwoName) {
+            return total + expense.amount;
+        }
+
+        return total;
+    }, 0);
+
+    const balance = (userOnePaid - userTwoPaid) / 2;
+
+    if (balance > 0) {
+        return {
+            owedBy: userTwoName,
+            owedTo: userOneName,
+            amount: balance,
+        };
+    }
+
+    if (balance < 0) {
+        return {
+            owedBy: userOneName,
+            owedTo: userTwoName,
+            amount: Math.abs(balance),
+        };
+    }
+
+    return {
+        owedBy: null,
+        owedTo: null,
+        amount: 0,
+    };
 };

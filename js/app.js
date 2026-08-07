@@ -52,6 +52,7 @@ deleteTransactionBtn.addEventListener("click", function () {
     //deletes expense when button clicked
     removeExpense(currentMonthKey);
     updateAllExpenseTotals();
+    updateMonthlyTotals(currentMonthKey);
     hideModal();
 });
 
@@ -76,13 +77,14 @@ expenseForm.addEventListener("submit", function (e) {
 
     saveExpenses();
     updateAllExpenseTotals();
+    updateMonthlyTotals(currentMonthKey);
 
     hideModal();
 });
 
 monthYearSelect.addEventListener("click", function () {
     // show the month and year selector after pressing month year button
-    monthYearPicker.classList.remove("hidden");
+    monthYearPicker.classList.toggle("hidden");
 });
 
 yearSelect.addEventListener("change", () => {
@@ -117,18 +119,18 @@ const updateAllExpenseTotals = () => {
     totalSpentNumAll.textContent = allExpensesAmount;
 };
 
+const updateMonthlyTotals = (monthKey) => {
+    const monthlyAmount = calculateTotalMonthlyAmount(monthKey);
+    const monthlyCount = calculateTotalMonthlyExpenses(monthKey);
+
+    transactionTotalMonth.textContent = monthlyAmount;
+    totalExpenseMonthNum.textContent = monthlyCount;
+};
+
 loadExpenses(); // loads expenses from localStorage into expenseArray
 renderMonthExpenses(currentMonthKey); // displays the current months expenses
 monthYearSelectName(currentMonthKey);
-const monthlyAmount = calculateTotalMonthlyAmount(currentMonthKey);
-const monthlyCount = calculateTotalMonthlyExpenses(currentMonthKey);
-const totalExpenses = calculateAllExpenses();
-const allExpensesAmount = calculateAllExpensesAmount();
-
-transactionTotalMonth.textContent = monthlyAmount;
-totalExpenseMonthNum.textContent = monthlyCount;
-transactionNumAll.textContent = totalExpenses;
-totalSpentNumAll.textContent = allExpensesAmount;
+updateMonthlyTotals(currentMonthKey);
 
 updateAllExpenseTotals();
 populateYearOption();
