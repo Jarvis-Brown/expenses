@@ -38,6 +38,7 @@ body {
     align-items: center;
     background-color: var(--white);
     padding: 10px 20px;
+    z-index: 1000;
 }
 
 .user-img-name {
@@ -144,8 +145,26 @@ body {
     margin-bottom: 14px;
 }
 
-.transaction-final-total {
+.transaction-final-total-group {
     text-align: center;
+}
+
+.settled-balance-message {
+    margin: 8px 0 0;
+    font-size: 0.8rem;
+    text-align: center;
+    color: var(--darkest-brown);
+}
+
+.settle-up-btn {
+    display: block;
+    margin: 16px auto 0;
+}
+
+.settle-up-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* TAB OPTIONS*/
@@ -238,6 +257,7 @@ body {
 
 .total-spent-expenses-group {
     display: flex;
+    align-items: center;
     gap: 10px;
 }
 
@@ -265,6 +285,11 @@ body {
     transform: scale(1.05);
     transition: 0.3s;
     cursor: pointer;
+}
+
+.settle-up-btn:disabled:hover {
+    transform: none;
+    cursor: not-allowed;
 }
 
 .add-transaction-btn,
@@ -362,6 +387,10 @@ body {
 
 .hidden {
     display: none;
+}
+
+.hidden-display {
+    visibility: hidden;
 }
 
 #expense-form {

@@ -4,9 +4,9 @@ import { dateInput, yearSelect, monthSelect, monthYearSelect } from "./dom.js";
 import { groupExpenseYearMonth, renderMonthExpenses } from "./expenses.js";
 
 const dateNow = new Date(); // creates a date object for current date
-const formattedDate = dateNow.toISOString().split("T")[0]; // converting date
+const formattedDate = dateNow.toLocaleDateString("en-CA"); // local YYYY-MM-DD date
 dateInput.value = formattedDate;
-export const currentMonthKey = new Date().toISOString().slice(0, 7); // Stores the current month as "YYYY-MM" (this is 7 spots)
+export const currentMonthKey = formattedDate.slice(0, 7);
 
 const monthsArray = [
     "January",
@@ -58,6 +58,8 @@ export const availableYearKeys = () => {
 export const populateYearOption = () => {
     const years = availableYearKeys();
 
+    yearSelect.innerHTML = '<option value="">Select year</option>';
+
     years.forEach((year) => {
         const yearOption = document.createElement("option");
         yearOption.value = year;
@@ -77,6 +79,8 @@ export const availableMonthsForYear = (selectYear) => {
 export const populateMonthOption = (selectedYear) => {
     // creating year options to select
     const months = availableMonthsForYear(selectedYear);
+
+    monthSelect.innerHTML = '<option value="">Select month</option>';
 
     months.forEach((month) => {
         const monthName = formatMonthName(month);

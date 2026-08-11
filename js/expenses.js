@@ -5,6 +5,9 @@ import {
     expenseList,
     titleInput,
     userNameSelect,
+    transactionFinalTotal,
+    leftSideUser,
+    rightSideUser,
 } from "./dom.js";
 import { openEditExpenseModal } from "./modal.js";
 import { saveExpenses } from "./storage.js";
@@ -13,9 +16,12 @@ export const groupExpenseYearMonth = () => {
     // groups the expenses by month and year. cuts off the day
     // Returns an object where each key is a month (YYYY-MM)
     // and the value is an array of expenses for that month.
-    const expenseMonth = Object.groupBy(expenseArray, (expense) => {
-        return expense.date.slice(0, 7);
-    });
+    const expenseMonth = expenseArray.reduce((groups, expense) => {
+        const monthKey = expense.date.slice(0, 7);
+        groups[monthKey] ||= [];
+        groups[monthKey].push(expense);
+        return groups;
+    }, {});
 
     return expenseMonth;
 };
@@ -61,7 +67,7 @@ const createExpenseElement = (expense) => {
     expenseLeft.appendChild(expenseUserPaid);
 
     expenseCost.classList.add("expense-cost");
-    expenseCost.innerText = `$${expense.amount}`;
+    expenseCost.innerText = `$${expense.amount.toFixed(2)}`;
     expenseGroup.appendChild(expenseCost);
 
     expenseGroup.addEventListener("click", function () {
@@ -129,13 +135,49 @@ export const calculateAllExpensesAmount = () => {
 
 export const calculateAllExpenses = () => expenseArray.length; // returns the total expenses in the array
 
-export const calculateMonthlyBalance = (monthKey, userOne, userTwo) => {
+export const calculateMonthlyNetBalance = (monthKey, userOne, userTwo) => {
     const groupExpenses = groupExpenseYearMonth();
     const monthExpenses = groupExpenses[monthKey] || [];
-    const userOneExpenses = monthExpenses.forEach((expense) => {
+
+    const userOneExpenses = monthExpenses.filter((expense) => {
         return expense.paid === userOne;
     });
-    const userTwoExpenses = monthExpenses.forEach((expense) => {
+    const userOneTotal = userOneExpenses.reduce((sum, expense) => {
+        return sum + expense.amount;
+    }, 0);
+
+    const userTwoExpenses = monthExpenses.filter((expense) => {
         return expense.paid === userTwo;
     });
+    const userTwoTotal = userTwoExpenses.reduce((sum, expense) => {
+        return sum + expense.amount;
+    }, 0);
+
+    const difference = userOneTotal - userTwoTotal;
+    return difference / 2;
+};
+
+export const calculateMonthlyBalance = (
+    monthKey,
+    userOne,
+    userTwo,
+    balanceCheckpoint = 0,
+) => {
+    const balance =
+        calculateMonthlyNetBalance(monthKey, userOne, userTwo) -
+        balanceCheckpoint;
+    transactionFinalTotal.textContent = Math.abs(balance).toFixed(2);
+
+    if (balance > 0) {
+        rightSideUser.classList.remove("hidden-display");
+        leftSideUser.classList.add("hidden-display");
+    } else if (balance < 0) {
+        leftSideUser.classList.remove("hidden-display");
+        rightSideUser.classList.add("hidden-display");
+    } else {
+        leftSideUser.classList.add("hidden-display");
+        rightSideUser.classList.add("hidden-display");
+    }
+
+    return balance;
 };

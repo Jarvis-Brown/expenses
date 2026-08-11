@@ -14,7 +14,7 @@
                 <h3 class="user-nav-image dark-text">Our Expenses</h3>
             </div>
             <h1 id="title" class="dark-text">Honey Split</h1>
-            <div class="hamburger">
+            <div class="hamburger hidden">
                 <div class="line1 line"></div>
                 <div class="line2 line"></div>
                 <div class="line3 line"></div>
@@ -47,7 +47,7 @@
                     <h2 class="text-margin">Jarvis</h2>
                 </div>
 
-                <div class="left-side-user">
+                <div class="left-side-user hidden-display">
                     <h3 class="user-owes">Jarvis owes Brittany</h3>
                     <img
                         src="images/arrow.svg"
@@ -58,13 +58,20 @@
 
                 <div class="transaction-total-group">
                     <div class="transaction-box">
-                        <h1 class="transaction-final-total text-margin">
-                            $500
+                        <h1 class="transaction-final-total-group text-margin">
+                            $<span class="transaction-final-total"></span>
                         </h1>
+                        <p
+                            class="settled-balance-message hidden"
+                            aria-live="polite"
+                        ></p>
+                        <button type="button" class="btn settle-up-btn">
+                            Settle Up
+                        </button>
                     </div>
                     <div class="transaction-box">
                         <h4 class="transactions-all text-margin">
-                            Transactions:
+                            Total transactions:
                             <span class="transactions-num-all"></span>
                         </h4>
 
@@ -75,7 +82,7 @@
                     </div>
                 </div>
 
-                <div class="right-side-user">
+                <div class="right-side-user hidden-display">
                     <h3 class="user-owes">Brittany owes Jarvis</h3>
                     <img
                         src="images/arrow.svg"
@@ -151,7 +158,7 @@
         </div>
 
         <div class="transaction-all-group">
-            <h5 class="filter-option text-margin filter-text">
+            <h5 class="filter-option text-margin filter-text hidden-display">
                 Filter Transactions
             </h5>
             <div class="transaction-group-bg">
