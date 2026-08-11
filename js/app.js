@@ -31,6 +31,8 @@ import {
     transactionNumAll,
     settledBalanceMessage,
     settleUpBtn,
+    logoImg,
+    dropArrow,
 } from "./dom.js";
 import { expenseArray, editMode, selectedExpenseId } from "./state.js";
 import { saveExpenses, loadExpenses } from "./storage.js";
@@ -89,6 +91,13 @@ const showMonth = (monthKey) => {
     );
     renderSettlementState(settlement, balance);
 };
+
+logoImg.addEventListener("click", function () {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+    });
+});
 
 addTransactionBtn.addEventListener("click", function () {
     // shows transaction modal when button clicked
@@ -172,6 +181,7 @@ settleUpBtn.addEventListener("click", () => {
 monthYearSelect.addEventListener("click", function () {
     // Toggle the month and year selector when its button is pressed.
     monthYearPicker.classList.toggle("hidden");
+    dropArrow.classList.toggle("open");
 });
 
 document.addEventListener("click", (event) => {
@@ -179,6 +189,7 @@ document.addEventListener("click", (event) => {
 
     if (!monthFilter.contains(event.target)) {
         monthYearPicker.classList.add("hidden");
+        dropArrow.classList.remove("open");
     }
 });
 

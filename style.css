@@ -7,6 +7,8 @@
     --light-brown: #ffe2b3;
     --white: #ffffff;
     --accent: #ff5547;
+    --honey-outline: #ffa250;
+    --honey-inside: #ffe165;
 }
 
 .dark-text {
@@ -42,13 +44,13 @@ body {
     z-index: 1000;
 }
 
-.user-img-name {
+.logo-img-name {
     display: flex;
     gap: 25px;
     align-items: center;
 }
 
-.user-image {
+.logo {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -96,6 +98,8 @@ body {
 }
 
 .user-img-name-transaction {
+    --avatar-width: 178px;
+
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -103,10 +107,11 @@ body {
 }
 
 .user-image-transaction {
-    width: 178px;
-    /* Aspect ratio for a regular hexagon is approximately 1 / cos(30deg) */
-    height: calc(178px * 1.1547);
-    background-color: white; /* Green color example */
+    width: var(--avatar-width);
+    height: auto;
+    /* Keep the regular hexagon's width-to-height ratio at every size. */
+    aspect-ratio: 1 / 1.1547;
+    background-color: var(--honey-inside);
     clip-path: polygon(
         0% 25%,
         /* Top-left corner of the shape */ 0% 75%,
@@ -115,6 +120,20 @@ body {
         /* Bottom-right corner of the shape */ 100% 25%,
         /* Top-right corner of the shape */ 50% 0% /* Top middle corner */
     );
+}
+
+.avatar-border {
+    /* 195 / 178 preserves the original border thickness as the avatar scales. */
+    width: calc(var(--avatar-width) * 1.0955);
+    height: auto;
+    aspect-ratio: 1 / 1.1547;
+    background-color: var(--honey-outline);
+
+    clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 10px;
 }
 
@@ -211,6 +230,13 @@ body {
 
 .drop-arrow {
     color: var(--dark-brown);
+    display: inline-block;
+    transform: rotate(-90deg);
+    transition: transform 0.2s ease;
+}
+
+.drop-arrow.open {
+    transform: rotate(0deg);
 }
 
 .month-filter {
@@ -239,7 +265,8 @@ body {
 
 .month-year-picker,
 #month-select,
-#year-select :hover {
+#year-select,
+.logo:hover {
     cursor: pointer;
 }
 
@@ -409,9 +436,8 @@ body {
         margin: 30px 48px;
     }
 
-    .user-image-transaction {
-        width: 150px;
-        height: calc(150px * 1.1547);
+    .user-img-name-transaction {
+        --avatar-width: 150px;
     }
 
     .arrow {
@@ -509,7 +535,7 @@ body {
         padding: 8px 16px;
     }
 
-    .user-img-name {
+    .logo-img-name {
         gap: 0;
     }
 
@@ -517,7 +543,7 @@ body {
         display: none;
     }
 
-    .user-image {
+    .logo {
         width: 42px;
         height: 42px;
     }
@@ -535,9 +561,8 @@ body {
         padding: 0 18px;
     }
 
-    .user-image-transaction {
-        width: 116px;
-        height: calc(116px * 1.1547);
+    .user-img-name-transaction {
+        --avatar-width: 116px;
     }
 
     .user-img-name-transaction h2 {

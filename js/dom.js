@@ -9,7 +9,7 @@ export const expenseList = document.querySelector(".expense-list");
 
 // nav bar
 
-export const userImg = document.querySelector(".user-image");
+export const logoImg = document.querySelector(".logo");
 export const userNavImg = document.querySelector(".user-nav-image");
 export const hamburger = document.querySelector(".hamburger");
 
@@ -64,5 +64,6 @@ export const monthYearSelect = document.querySelector(".month-year-select");
 export const yearSelect = document.querySelector("#year-select");
 export const monthSelect = document.querySelector("#month-select");
 export const monthYearPicker = document.querySelector(".month-year-picker");
+export const dropArrow = document.querySelector(".drop-arrow");
 
 console.log(monthYearSelect);
