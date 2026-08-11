@@ -26,6 +26,7 @@ body {
 
 body {
     background-color: var(--white);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* NAV BAR*/
@@ -105,7 +106,7 @@ body {
     width: 178px;
     /* Aspect ratio for a regular hexagon is approximately 1 / cos(30deg) */
     height: calc(178px * 1.1547);
-    background-color: #6c6; /* Green color example */
+    background-color: white; /* Green color example */
     clip-path: polygon(
         0% 25%,
         /* Top-left corner of the shape */ 0% 75%,
@@ -114,8 +115,12 @@ body {
         /* Bottom-right corner of the shape */ 100% 25%,
         /* Top-right corner of the shape */ 50% 0% /* Top middle corner */
     );
+    margin-bottom: 10px;
 }
 
+.user-right-img {
+    padding-top: 12px;
+}
 .user-owes {
     color: var(--white);
 }
@@ -395,4 +400,9 @@ body {
 
 #expense-form {
     margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+    .group-transaction-main {
+    }
 }

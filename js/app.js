@@ -48,8 +48,8 @@ import {
     monthYearSelectName,
 } from "./calendar.js";
 
-const USER_ONE = "Jarvis";
-const USER_TWO = "Brittany";
+const USER_ONE = "Joe";
+const USER_TWO = "Amber";
 let activeMonthKey = currentMonthKey;
 
 const renderSettlementState = (settlement, balance) => {
