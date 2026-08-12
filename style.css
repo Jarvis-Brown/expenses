@@ -380,7 +380,7 @@ body {
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 10;
+    z-index: 2000;
 }
 
 .modal {
@@ -397,7 +397,7 @@ body {
     padding: 30px 20px;
     text-align: center;
 
-    z-index: 20;
+    z-index: 2010;
 }
 
 .modal-overlay {
