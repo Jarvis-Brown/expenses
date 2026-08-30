@@ -140,12 +140,24 @@ body {
 .user-right-img {
     padding-top: 12px;
 }
+
+.right-side-user,
+.left-side-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 10px;
+    gap: 8px;
+}
+
 .user-owes {
     color: var(--white);
 }
 
 .arrow {
-    width: 170px;
+    width: 150px;
+    align-self: center;
 }
 
 .right-arrow {
@@ -442,6 +454,7 @@ body {
 
     .arrow {
         width: 120px;
+        align-self: center;
     }
 
     .transaction-box {
@@ -451,6 +464,14 @@ body {
     .transaction-all-group {
         margin-right: 48px;
         margin-left: 48px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .right-side-user,
+    .left-side-user {
+        padding: 0px 14px;
+        width: 160px;
     }
 }
 
@@ -499,6 +520,7 @@ body {
 
     .user-owes {
         margin: 0;
+        padding: 30px;
     }
 
     .arrow {
